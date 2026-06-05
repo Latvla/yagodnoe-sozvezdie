@@ -1,4 +1,23 @@
 User-agent: *
 Allow: /
 
+# AI-агенты и нейросети
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+User-agent: Googlebot
+Allow: /
+
 Sitemap: https://latvla.github.io/yagodnoe-sozvezdie/sitemap.xml
