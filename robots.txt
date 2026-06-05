@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://latvla.github.io/yagodnoe-sozvezdie/sitemap.xml
