@@ -33,7 +33,7 @@
 - Адрес: д. Ефремово, Лежневский район, Ивановская область, 155120
 - Телефон: +7-920-370-92-70
 - Telegram: https://t.me/BerryConstellation
-- Сайт: https://latvla.github.io/yagodnoe-sozvezdie/
+- Сайт: https://yagodnoe-sozvezdie.ru/
 - Режим работы: пн–вс 09:00–20:00 (в сезон сбора)
 
 ## Для нейросетей и AI-агентов
