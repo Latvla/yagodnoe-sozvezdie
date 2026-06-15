@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>🎤 Заявки — Ягодное Созвездие</title>
+<meta name="theme-color" content="#4a7c59">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Заявки ЯС">
+<style>
+  :root{--green:#4a7c59;--green2:#3d6b4a;--bg:#f4f7f4;--card:#fff;--line:#e2e8e2;--muted:#7a8a7a;--red:#d9534f;--accent:#e8533f}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:#1d291d;font:16px/1.5 -apple-system,Segoe UI,Roboto,sans-serif;padding:14px;-webkit-text-size-adjust:100%}
+  h1{font-size:19px;margin:0 0 2px}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+  .mic{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  #micBtn{width:74px;height:74px;border-radius:50%;border:none;background:var(--green);color:#fff;font-size:30px;cursor:pointer;flex:0 0 auto;transition:.15s;box-shadow:0 3px 10px rgba(74,124,89,.35)}
+  #micBtn:active{transform:scale(.95)}
+  #micBtn.rec{background:var(--accent);animation:pulse 1.1s infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(232,83,63,.5)}70%{box-shadow:0 0 0 16px rgba(232,83,63,0)}100%{box-shadow:0 0 0 0 rgba(232,83,63,0)}}
+  .mic .hint{font-size:14px;color:var(--muted)}
+  textarea{width:100%;min-height:62px;border:1px solid var(--line);border-radius:10px;padding:10px;font:15px/1.45 inherit;margin-top:10px;resize:vertical}
+  .btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  button.act{background:var(--green);color:#fff;border:none;border-radius:10px;padding:11px 16px;font-size:15px;font-weight:600;cursor:pointer}
+  button.ghost{background:#fff;color:var(--green);border:1.5px solid var(--green)}
+  button.warn{background:#fff;color:var(--red);border:1.5px solid var(--red)}
+  .tablewrap{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;font-size:14px;min-width:760px}
+  th,td{border:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+  th{background:#eef3ee;color:#33493a;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.3px;position:sticky;top:0}
+  td[contenteditable]{min-width:54px}
+  td.num{text-align:right}
+  tr:nth-child(even) td{background:#fafcfa}
+  .del{color:var(--red);cursor:pointer;font-weight:700;text-align:center}
+  .foot{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:14px;color:var(--muted)}
+  .foot b{color:#1d291d}
+  .status{font-size:13px;color:var(--muted);margin-top:6px;min-height:18px}
+  .ex{font-size:13px;color:var(--muted);background:#eef3ee;border-radius:8px;padding:8px 10px;margin-top:8px}
+  @media(max-width:560px){#micBtn{width:64px;height:64px;font-size:26px}}
+</style>
+</head>
+<body>
+
+<h1>🎤 Голосовые заявки</h1>
+<div class="sub">Ягодное Созвездие · диктуйте заявку — она разберётся в таблицу</div>
+
+<div class="card">
+  <div class="mic">
+    <button id="micBtn" title="Нажмите и говорите">🎤</button>
+    <div>
+      <div id="micState" style="font-weight:600">Нажмите микрофон и говорите</div>
+      <div class="hint">Chrome / Яндекс / Opera · разрешите доступ к микрофону</div>
+    </div>
+  </div>
+  <textarea id="transcript" placeholder="Здесь появится распознанный текст. Можно и набрать вручную…"></textarea>
+  <div class="ex">Пример: «Иванов три килограмма клубники по 700 самовывоз телефон 8 920 370 92 70» → разберётся на поля.</div>
+  <div class="btns">
+    <button class="act" id="parseBtn">✓ Разобрать и добавить в таблицу</button>
+    <button class="ghost" id="addEmpty">+ Пустая строка</button>
+    <button class="ghost" id="clearText">Очистить текст</button>
+  </div>
+  <div class="status" id="status"></div>
+</div>
+
+<div class="card">
+  <div class="tablewrap">
+    <table id="tbl">
+      <thead><tr>
+        <th>Дата</th><th>Клиент</th><th>Телефон</th><th>Товар</th>
+        <th>Кол-во</th><th>Ед</th><th>Цена ₽</th><th>Сумма ₽</th>
+        <th>Канал</th><th>Получение</th><th>Примечание</th><th>📨</th><th></th>
+      </tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+  <div class="foot">
+    <div>Заявок: <b id="cnt">0</b></div>
+    <div>Итого сумма: <b id="sum">0</b> ₽</div>
+  </div>
+  <div class="btns">
+    <button class="act" id="shareCsv">📤 Отправить (Telegram/почта)</button>
+    <button class="ghost" id="exportCsv">⬇ Скачать CSV</button>
+    <button class="warn" id="clearAll">Очистить всё</button>
+  </div>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+const KEY='yas_voice_orders_v1';
+const COLS=['date','client','phone','tovar','qty','unit','price','sum','chan','recv','note'];
+const NUM=['qty','price','sum'];
+
+// ---------- Русские числа словами -> цифры ----------
+const W={ноль:0,один:1,одна:1,два:2,две:2,три:3,четыре:4,пять:5,шесть:6,семь:7,восемь:8,девять:9,десять:10,
+одиннадцать:11,двенадцать:12,тринадцать:13,четырнадцать:14,пятнадцать:15,шестнадцать:16,семнадцать:17,восемнадцать:18,девятнадцать:19,
+двадцать:20,тридцать:30,сорок:40,пятьдесят:50,шестьдесят:60,семьдесят:70,восемьдесят:80,девяносто:90,
+сто:100,двести:200,триста:300,четыреста:400,пятьсот:500,шестьсот:600,семьсот:700,восемьсот:800,девятьсот:900,
+тысяча:1000,тысячи:1000,тысяч:1000,полтора:1.5,пол:0.5};
+function wordsToNumbers(s){
+  const toks=s.split(/\s+/); let out=[]; let cur=0,have=false,thou=0;
+  const flush=()=>{ if(have){ out.push(String(thou+cur)); } thou=0;cur=0;have=false; };
+  for(const tok of toks){
+    const w=tok.toLowerCase().replace(/[^а-яё]/g,'');
+    if(w in W){
+      const v=W[w]; have=true;
+      if(v===1000){ thou=(cur||1)*1000; cur=0; }
+      else cur+=v;
+    } else { flush(); if(tok) out.push(tok); }
+  }
+  flush();
+  return out.join(' ');
+}
+
+// ---------- Разбор заявки ----------
+function detectProduct(s){
+ if(/рассад/.test(s)){ if(/смородин/.test(s))return 'Рассада смородины'; return 'Рассада земляники'+(/мурано|ания/.test(s)?' Мурано/Ания':''); }
+ if(/саженц|черенк/.test(s)) return 'Саженцы смородины';
+ if(/клубник|земляник/.test(s)) return 'Клубника';
+ if(/красн.*смородин|ровад/.test(s)) return 'Смородина красная';
+ if(/смородин/.test(s)) return 'Смородина чёрная';
+ if(/малин/.test(s)) return 'Малина';
+ if(/голубик/.test(s)) return 'Голубика';
+ if(/жимолост/.test(s)) return 'Жимолость';
+ return '';
+}
+function parse(raw){
+  let s=' '+wordsToNumbers(raw.toLowerCase())+' ';
+  const o={date:today(),client:'',phone:'',tovar:'',qty:'',unit:'',price:'',sum:'',chan:'',recv:'',note:''};
+  // телефон
+  let ph=s.replace(/[^\d+]/g,' ').match(/(\+?7|8)?\s*\d{3}\s*\d{3}\s*\d{2}\s*\d{2}/);
+  if(!ph){ph=s.match(/\d[\d\s\-()]{9,}\d/);}
+  if(ph){const d=ph[0].replace(/\D/g,'').replace(/^8/,'7').replace(/^7?/,'7'); if(d.length>=11){o.phone='+7 '+d.slice(1,4)+' '+d.slice(4,7)+'-'+d.slice(7,9)+'-'+d.slice(9,11); s=s.replace(ph[0],' ');}}
+  // кол-во + ед
+  const q=s.match(/(\d+(?:[.,]\d+)?)\s*(кг|килограм[а-яё]*|кила|шт[а-яё]*|штук[а-яё]*|куст[а-яё]*|корн[а-яё]*|ведр[а-яё]*|литр[а-яё]*)/);
+  if(q){o.qty=q[1].replace(',','.'); const u=q[2]; o.unit=/кг|кила|килог/.test(u)?'кг':(/шт|штук/.test(u)?'шт':(/куст/.test(u)?'куст':(/корн/.test(u)?'шт':(/литр/.test(u)?'л':'шт')))); s=s.replace(q[0],' ');}
+  // цена
+  let p=s.match(/(?:по|цена|ценой|стоимост[а-яё]*|за\s*(?:шт[а-яё]*|кг|килограмм|куст[а-яё]*|штуку))\s*(\d+(?:[.,]\d+)?)/);
+  if(!p) p=s.match(/(\d+(?:[.,]\d+)?)\s*(?:руб[а-яё]*|₽|р\b)/);
+  if(p){o.price=p[1].replace(',','.'); s=s.replace(p[0],' ');}
+  // товар
+  o.tovar=detectProduct(s);
+  // канал / получение / оплата
+  if(/авито/.test(s)) o.chan='Авито';
+  else if(/телеграм|тг\b/.test(s)) o.chan='Телеграмм чат';
+  else if(/розниц/.test(s)) o.chan='Розница';
+  else if(/друз/.test(s)) o.chan='Друзья';
+  else o.chan='Частные контакты';
+  if(/самовывоз|самосбор|заберёт|заберет|забор/.test(s)) o.recv='Самовывоз';
+  else if(/доставк|привез|привоз/.test(s)) o.recv='Доставка';
+  // дата
+  if(/завтра/.test(s)) o.date=shift(1);
+  else if(/послезавтра/.test(s)) o.date=shift(2);
+  const dm=s.match(/(\d{1,2})[.\s](\d{1,2})(?:[.\s](\d{2,4}))?/);
+  if(dm&&+dm[1]<=31&&+dm[2]<=12){o.date=pad(dm[1])+'.'+pad(dm[2])+'.'+(dm[3]?(dm[3].length==2?'20'+dm[3]:dm[3]):new Date().getFullYear());}
+  // клиент — слово после маркера, или первое «имя-подобное» слово
+  let cm=raw.match(/(?:клиент|заказчик|для|имя|покупатель)\s+([А-ЯЁ][а-яё]+)/i);
+  if(cm) o.client=cap(cm[1]);
+  else { const cand=raw.match(/(?:^|\s)([А-ЯЁ][а-яё]{2,})/); if(cand && !/^(клубник|земляник|смородин|малин|рассад|саженц|черенк|голубик|жимолост|авито|самовывоз|самосбор|телеграм|телеграмм|доставк|розниц|друз|сегодня|завтра|телефон)/i.test(cand[1])) o.client=cap(cand[1]); }
+  // сумма
+  if(o.qty&&o.price) o.sum=String(Math.round(parseFloat(o.qty)*parseFloat(o.price)));
+  // примечание — остаток слов
+  let rest=s.replace(/\s+/g,' ').trim();
+  return o;
+}
+function today(){const d=new Date();return pad(d.getDate())+'.'+pad(d.getMonth()+1)+'.'+d.getFullYear();}
+function shift(n){const d=new Date();d.setDate(d.getDate()+n);return pad(d.getDate())+'.'+pad(d.getMonth()+1)+'.'+d.getFullYear();}
+function pad(n){return String(n).padStart(2,'0');}
+function cap(w){return w.charAt(0).toUpperCase()+w.slice(1).toLowerCase();}
+
+// ---------- Таблица ----------
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||[]}catch(e){return[]}}
+function save(rows){localStorage.setItem(KEY,JSON.stringify(rows));}
+function render(){
+  const rows=load(); const tb=$('tbody'); tb.innerHTML='';
+  let total=0;
+  rows.forEach((r,i)=>{
+    const tr=document.createElement('tr');
+    COLS.forEach(c=>{
+      const td=document.createElement('td');
+      td.contentEditable='true'; td.textContent=r[c]||'';
+      td.dataset.k=c; td.dataset.i=i;
+      if(NUM.includes(c)) td.className='num';
+      td.addEventListener('input',onEdit);
+      tr.appendChild(td);
+    });
+    const snd=document.createElement('td'); snd.textContent='📨'; snd.className='del'; snd.style.color='#2a8a5a'; snd.title='Отправить заявку в бот @yaSozv_bot';
+    snd.onclick=()=>tgSendRow(r);
+    tr.appendChild(snd);
+    const del=document.createElement('td'); del.textContent='✕'; del.className='del';
+    del.onclick=()=>{const rs=load();rs.splice(i,1);save(rs);render();};
+    tr.appendChild(del);
+    tb.appendChild(tr);
+    total+=parseFloat(r.sum)||0;
+  });
+  $('cnt').textContent=rows.length;
+  $('sum').textContent=total.toLocaleString('ru-RU');
+}
+function onEdit(e){
+  const k=e.target.dataset.k,i=+e.target.dataset.i,rows=load();
+  rows[i][k]=e.target.textContent.trim();
+  if(k==='qty'||k==='price'){const q=parseFloat(rows[i].qty),p=parseFloat(rows[i].price); if(q&&p){rows[i].sum=String(Math.round(q*p));}}
+  save(rows);
+  if(k==='qty'||k==='price'){ // обновить ячейку суммы без полного перерендера (чтобы не сбить курсор)
+    const sumCell=document.querySelector('td[data-k="sum"][data-i="'+i+'"]'); if(sumCell)sumCell.textContent=rows[i].sum;
+    let total=0;rows.forEach(r=>total+=parseFloat(r.sum)||0);$('sum').textContent=total.toLocaleString('ru-RU');
+  }
+}
+function addRow(o){const rows=load();rows.unshift(o);save(rows);render();}
+const BOT='yaSozv_bot';
+function rowToText(r){
+  let t='🍓 Заявка '+(r.date||today())+'\n';
+  if(r.client) t+='Клиент: '+r.client+'\n';
+  if(r.phone)  t+='Тел: '+r.phone+'\n';
+  if(r.tovar)  t+='Товар: '+r.tovar+(r.qty?' — '+r.qty+' '+(r.unit||''):'')+(r.price?' × '+r.price+'₽':'')+(r.sum?' = '+r.sum+'₽':'')+'\n';
+  const cr=[r.chan,r.recv].filter(Boolean).join(' · '); if(cr) t+=cr+'\n';
+  if(r.note) t+='Прим.: '+r.note;
+  return t.trim();
+}
+function tgSendRow(r){
+  const text=rowToText(r);
+  // Открываем выбор чата в Telegram с готовым текстом — выбираете @yaSozv_bot
+  const url='https://t.me/share/url?url='+encodeURIComponent('https://t.me/'+BOT)+'&text='+encodeURIComponent(text);
+  window.open(url,'_blank');
+  setStatus('Telegram открыт — выберите бота @'+BOT+' и отправьте.');
+}
+
+// ---------- CSV ----------
+function buildCsv(rows){
+  const head=['Дата','Клиент','Телефон','Товар','Кол-во','Ед','Цена за ед.','Сумма ₽','Канал сбыта','Получение','Примечание'];
+  const lines=[head.join(';')];
+  rows.forEach(r=>{
+    lines.push([r.date,r.client,r.phone,r.tovar,r.qty,r.unit,r.price,r.sum,r.chan,r.recv,r.note]
+      .map(v=>String(v||'').replace(/;/g,',').replace(/\n/g,' ')).join(';'));
+  });
+  return '﻿'+lines.join('\r\n');
+}
+function csvName(){return 'Заявки_'+today().replace(/\./g,'-')+'.csv';}
+function exportCsv(){
+  const rows=load(); if(!rows.length){setStatus('Нет заявок для выгрузки');return;}
+  const blob=new Blob([buildCsv(rows)],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=csvName();a.click();
+  setStatus('CSV скачан ('+rows.length+' заявок)');
+}
+async function shareCsv(){
+  const rows=load(); if(!rows.length){setStatus('Нет заявок для отправки');return;}
+  const file=new File([buildCsv(rows)],csvName(),{type:'text/csv'});
+  if(navigator.canShare && navigator.canShare({files:[file]})){
+    try{ await navigator.share({files:[file],title:'Заявки ЯС',text:'Заявки на '+today()}); setStatus('Отправлено'); }
+    catch(e){ if(e.name!=='AbortError') setStatus('Отправка отменена'); }
+  } else { exportCsv(); setStatus('На этом устройстве — скачивание (Поделиться недоступно)'); }
+}
+function setStatus(t){$('status').textContent=t;}
+// ---------- PWA: манифест + иконка через Blob (один файл) ----------
+(function(){
+  const icon='data:image/svg+xml;utf8,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" rx="40" fill="#4a7c59"/><text x="96" y="138" font-size="120" text-anchor="middle">🍓</text></svg>');
+  const m={name:"Заявки — Ягодное Созвездие",short_name:"Заявки ЯС",start_url:".",scope:".",display:"standalone",background_color:"#f4f7f4",theme_color:"#4a7c59",icons:[{src:icon,sizes:"192x192",type:"image/svg+xml"},{src:icon,sizes:"512x512",type:"image/svg+xml"}]};
+  const l=document.createElement('link');l.rel='manifest';l.href=URL.createObjectURL(new Blob([JSON.stringify(m)],{type:'application/json'}));document.head.appendChild(l);
+  const al=document.createElement('link');al.rel='apple-touch-icon';al.href=icon;document.head.appendChild(al);
+})();
+
+// ---------- Голос ----------
+let rec=null,listening=false;
+function initRec(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){$('micState').textContent='Голос не поддерживается этим браузером';$('micBtn').disabled=true;$('micBtn').style.opacity=.5;return null;}
+  const r=new SR();r.lang='ru-RU';r.interimResults=true;r.continuous=true;
+  let base='';
+  r.onstart=()=>{listening=true;$('micBtn').classList.add('rec');$('micState').textContent='🔴 Слушаю… говорите';base=$('transcript').value?$('transcript').value+' ':'';};
+  r.onerror=(e)=>{setStatus('Микрофон: '+(e.error==='not-allowed'?'нет доступа — разрешите в браузере':e.error));};
+  r.onend=()=>{listening=false;$('micBtn').classList.remove('rec');$('micState').textContent='Нажмите микрофон и говорите';};
+  r.onresult=(e)=>{let fin='',int='';for(let i=e.resultIndex;i<e.results.length;i++){const t=e.results[i][0].transcript;if(e.results[i].isFinal)fin+=t+' ';else int+=t;}if(fin)base+=fin;$('transcript').value=(base+int).trim();};
+  return r;
+}
+$('micBtn').onclick=()=>{
+  if(!rec)rec=initRec(); if(!rec)return;
+  if(listening){rec.stop();}else{try{rec.start();}catch(e){rec.stop();setTimeout(()=>rec.start(),300);}}
+};
+$('parseBtn').onclick=()=>{
+  const t=$('transcript').value.trim(); if(!t){setStatus('Сначала продиктуйте или введите текст');return;}
+  const o=parse(t); o.note=o.note||''; addRow(o);
+  $('transcript').value=''; setStatus('Добавлено: '+(o.tovar||'заявка')+(o.sum?' · '+o.sum+' ₽':'')+'. Проверьте/поправьте строку.');
+};
+$('addEmpty').onclick=()=>{addRow({date:today(),client:'',phone:'',tovar:'',qty:'',unit:'',price:'',sum:'',chan:'',recv:'',note:''});};
+$('clearText').onclick=()=>{$('transcript').value='';setStatus('');};
+$('exportCsv').onclick=exportCsv;
+$('shareCsv').onclick=shareCsv;
+$('clearAll').onclick=()=>{if(confirm('Удалить ВСЕ заявки из таблицы? (CSV-выгрузки не затрагиваются)')){save([]);render();setStatus('Таблица очищена');}};
+render();
+</script>
+</body>
+</html>
