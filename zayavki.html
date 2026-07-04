@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
 <title>🎤 Заявки — Ягодное Созвездие</title>
 <meta name="theme-color" content="#4a7c59">
 <meta name="mobile-web-app-capable" content="yes">
@@ -302,8 +303,4 @@ $('addEmpty').onclick=()=>{addRow({date:today(),client:'',phone:'',tovar:'',qty:
 $('clearText').onclick=()=>{$('transcript').value='';setStatus('');};
 $('exportCsv').onclick=exportCsv;
 $('shareCsv').onclick=shareCsv;
-$('clearAll').onclick=()=>{if(confirm('Удалить ВСЕ заявки из таблицы? (CSV-выгрузки не затрагиваются)')){save([]);render();setStatus('Таблица очищена');}};
-render();
-</script>
-</body>
-</html>
+$('clearAll').onclick=()=>{if(confirm('Удалить ВСЕ заявки из таблицы? (CSV-выгрузки не затрагиваются)')){save([]);render();setStatus('Таблица очищ
