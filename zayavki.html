@@ -3,7 +3,6 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="robots" content="noindex, nofollow">
 <title>🎤 Заявки — Ягодное Созвездие</title>
 <meta name="theme-color" content="#4a7c59">
 <meta name="mobile-web-app-capable" content="yes">
@@ -210,17 +209,28 @@ function onEdit(e){
 }
 function addRow(o){const rows=load();rows.unshift(o);save(rows);render();}
 const BOT='yaSozv_bot';
-const TG_TOKEN='8899605533:AAFJekx4mTU3PdS8cZq3WxNwsuYkA1pCn6A';
-const TG_CHAT='396129765';
+/* ⚠️ БЕЗОПАСНОСТЬ (25.07.2026, аудит).
+   Токен бота БОЛЬШЕ НЕ ХРАНИТСЯ в этом файле и не должен сюда возвращаться:
+   страница публичная, любой мог прочитать токен через «исходный код» и получить
+   доступ к заявкам клиентов (имена + телефоны, 152-ФЗ).
+   Правильная схема — релей: страница шлёт заявку на свой endpoint,
+   токен лежит в переменной окружения релея (Cloudflare Worker / Yandex Cloud Function).
+   Пока RELAY_URL пуст — работает беcтокенная отправка через окно Telegram (кнопка 📨). */
+const RELAY_URL='';   // ← сюда адрес релея, когда будет готов. Токен НЕ вставлять.
+
 async function sendToBot(r){
   const text=rowToText(r);
+  if(!RELAY_URL){                      // беcтокенный режим — открываем Telegram с готовым текстом
+    tgSendRow(r);
+    return false;
+  }
   try{
-    const resp=await fetch('https://api.telegram.org/bot'+TG_TOKEN+'/sendMessage',
-      {method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},
-       body:'chat_id='+encodeURIComponent(TG_CHAT)+'&text='+encodeURIComponent(text)});
-    const d=await resp.json();
+    const resp=await fetch(RELAY_URL,
+      {method:'POST',headers:{'Content-Type':'application/json'},
+       body:JSON.stringify({text:text})});
+    const d=await resp.json().catch(()=>({ok:resp.ok}));
     if(d.ok){setStatus('✅ Заявка отправлена в Telegram');return true;}
-    setStatus('⚠️ Telegram: '+(d.description||'ошибка')+' — можно отправить 📨 вручную');return false;
+    setStatus('⚠️ Релей: '+(d.description||'ошибка')+' — можно отправить 📨 вручную');return false;
   }catch(e){setStatus('⚠️ Нет связи — заявка сохранена, отправьте 📨 позже');return false;}
 }
 function rowToText(r){
@@ -303,4 +313,8 @@ $('addEmpty').onclick=()=>{addRow({date:today(),client:'',phone:'',tovar:'',qty:
 $('clearText').onclick=()=>{$('transcript').value='';setStatus('');};
 $('exportCsv').onclick=exportCsv;
 $('shareCsv').onclick=shareCsv;
-$('clearAll').onclick=()=>{if(confirm('Удалить ВСЕ заявки из таблицы? (CSV-выгрузки не затрагиваются)')){save([]);render();setStatus('Таблица очищ
+$('clearAll').onclick=()=>{if(confirm('Удалить ВСЕ заявки из таблицы? (CSV-выгрузки не затрагиваются)')){save([]);render();setStatus('Таблица очищена');}};
+render();
+</script>
+</body>
+</html>
