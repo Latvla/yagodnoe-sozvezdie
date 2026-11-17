@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Страница не найдена — Ягодное Созвездие</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <meta name="theme-color" content="#1f4a12">
+  <style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;background:#f5fbf0;color:#1a3a10;line-height:1.5}
+
+/* ШАПКА (общая для всех страниц) */
+.sh{position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:18px;padding:8px 24px;background:#1f4a12;box-shadow:0 2px 12px rgba(0,0,0,.25);font-family:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;line-height:1.3}
+.sh a{text-decoration:none}
+.sh-brand{display:flex;align-items:center;gap:10px;color:#fff;flex-shrink:0}
+.sh-brand img{width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.5)}
+.sh-brand b{display:block;font-size:1rem;letter-spacing:.2px}
+.sh-brand small{display:block;font-size:.7rem;color:#cdeebb}
+.sh-links{all:unset;display:flex;gap:2px;margin-left:auto;font-family:inherit}
+.sh-links a{color:#e6f6dc;font-size:.88rem;font-weight:600;padding:8px 10px;border-radius:8px;white-space:nowrap}
+.sh-links a:hover{background:rgba(255,255,255,.12);color:#fff}
+.sh-links a[aria-current]{background:rgba(255,255,255,.16);color:#fff}
+.sh-tel{color:#fff;font-weight:700;font-size:.92rem;white-space:nowrap}
+.sh-cta{background:#fff;color:#1f4a12;font-weight:700;font-size:.88rem;padding:9px 18px;border-radius:24px;white-space:nowrap;flex-shrink:0}
+.sh-cta:hover{background:#e0ffcc}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #ffb03a;outline-offset:2px}
+@media(max-width:1080px){.sh-tel{display:none}}
+@media(max-width:860px){
+  .sh{flex-wrap:wrap;gap:6px 12px;padding:8px 14px 0}
+  .sh-cta{margin-left:auto;padding:7px 12px;font-size:.82rem}
+  .sh-brand b{font-size:.95rem}
+  .sh-links{order:3;width:calc(100% + 28px);margin:0 -14px;padding:0 8px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;background:#173a0c}
+  .sh-links::-webkit-scrollbar{display:none}
+  .sh-links a{padding:9px 10px;font-size:.84rem;border-radius:0}
+  .sh-brand small{display:none}
+}
+/* НИЖНЯЯ ПАНЕЛЬ НА ТЕЛЕФОНЕ */
+.mb{display:none}
+@media(max-width:700px){
+  body{padding-bottom:calc(58px + env(safe-area-inset-bottom))}
+  .mb{display:grid;grid-template-columns:1fr 1fr;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:90;padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);box-shadow:0 -2px 14px rgba(0,0,0,.18);font-family:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif}
+  .mb a{display:flex;align-items:center;justify-content:center;gap:6px;height:42px;border-radius:21px;font-weight:700;font-size:.93rem;text-decoration:none}
+  .mb-call{background:#1f4a12;color:#fff}
+  .mb-tg{background:#1672ad;color:#fff}
+}
+@media(max-width:374px){.sh-cta{display:none}}
+@media print{.sh,.mb{display:none}}
+
+.nf{max-width:720px;margin:0 auto;padding:64px 20px;text-align:center}
+.nf h1{font-size:clamp(1.6rem,5vw,2.4rem);margin-bottom:12px;color:#1a5010}
+.nf p{color:#3d6a2c;margin-bottom:28px}
+.nf-links{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.nf-links a{display:block;background:#fff;border:1.5px solid #e0f0d8;border-radius:16px;padding:18px;font-weight:700;color:#1a5010;text-decoration:none}
+.nf-links a:hover{border-color:#3fa828}
+  </style>
+</head>
+<body>
+<header class="sh">
+  <a class="sh-brand" href="/" aria-label="Ягодное Созвездие — на главную"><img src="/images/logo.webp" width="40" height="40" alt=""><span><b>Ягодное Созвездие</b><small>ягодная ферма · Ивановская область</small></span></a>
+  <nav class="sh-links" aria-label="Разделы сайта"><a href="/sazhentsy-smorodiny.html">Саженцы смородины</a><a href="/klubnika.html">Клубника</a><a href="/smorodina.html">Смородина</a><a href="/rassada.html">Рассада</a><a href="/miskantus.html">Мискантус</a><a href="/#contacts">Контакты</a></nav>
+  <a class="sh-tel" href="tel:+79203709270">+7 (920) 370-92-70</a>
+  <a class="sh-cta" href="/#order-section">Оставить заявку</a>
+</header>
+<main class="nf">
+  <h1>Такой страницы нет</h1>
+  <p>Возможно, ссылка устарела. Вот что есть на ферме:</p>
+  <div class="nf-links">
+    <a href="/sazhentsy-smorodiny.html">🌱 Саженцы смородины оптом</a>
+    <a href="/klubnika.html">🍓 Клубника</a>
+    <a href="/smorodina.html">🫐 Чёрная смородина</a>
+    <a href="/rassada.html">🌿 Рассада земляники</a>
+    <a href="/miskantus.html">🌾 Мискантус</a>
+    <a href="/">🏡 На главную</a>
+  </div>
+</main>
+<div class="mb" role="navigation" aria-label="Быстрая связь">
+  <a class="mb-call" href="tel:+79203709270">📞 Позвонить</a>
+  <a class="mb-tg" href="https://t.me/BerryConstellation" rel="noopener">✈️ Telegram</a>
+</div>
+</body>
+</html>

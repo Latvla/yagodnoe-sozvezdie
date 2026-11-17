@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <meta name="theme-color" content="#1f4a12">
   <title>Купить клубнику в Иваново | Ягодное Созвездие — 700 ₽/кг с фермы</title>
   <meta name="description" content="Свежая клубника прямо с фермы — 700 ₽/кг. Самовывоз в Иваново (ул. Кудряшова, 20) и из д. Ефремово. Сорта Мурано, Ания — волны плодоношения июнь–октябрь. КФХ Балабанов А.В.">
   <meta name="keywords" content="купить клубнику Иваново, клубника Ивановская область, свежая клубника с фермы, клубника самовывоз Иваново, ягоды Лежневский район, клубника цена кг">
@@ -26,8 +28,8 @@
       "@type": "Offer",
       "priceCurrency": "RUB",
       "price": "700",
-      "priceValidUntil": "2026-10-31",
-      "availability": "https://schema.org/InStock",
+      "priceValidUntil": "2027-10-31",
+      "availability": "https://schema.org/PreOrder",
       "url": "https://yagodnoe-sozvezdie.ru/klubnika.html",
       "seller": {
         "@type": "LocalBusiness",
@@ -59,11 +61,6 @@
     body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--cream); color: var(--text); line-height: 1.6; }
 
     /* NAV */
-    nav { background: var(--green); padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; }
-    nav a { color: #fff; text-decoration: none; font-size: 0.9rem; }
-    nav .logo { font-size: 1.05rem; font-weight: 700; letter-spacing: 0.03em; }
-    nav .links { display: flex; gap: 20px; }
-    nav .links a:hover { opacity: 0.8; }
 
     /* HERO */
     .hero { background: linear-gradient(135deg, #2D5016 0%, #4a7a25 60%, #1a3209 100%); color: #fff; padding: 60px 24px 80px; text-align: center; position: relative; overflow: hidden; }
@@ -126,28 +123,77 @@
     footer a { color: rgba(255,255,255,0.9); }
 
     @media (max-width: 600px) {
-      nav .links { display: none; }
     }
+  
+/* ШАПКА (общая для всех страниц) */
+.sh{position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:18px;padding:8px 24px;background:#1f4a12;box-shadow:0 2px 12px rgba(0,0,0,.25);font-family:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;line-height:1.3}
+.sh a{text-decoration:none}
+.sh-brand{display:flex;align-items:center;gap:10px;color:#fff;flex-shrink:0}
+.sh-brand img{width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.5)}
+.sh-brand b{display:block;font-size:1rem;letter-spacing:.2px}
+.sh-brand small{display:block;font-size:.7rem;color:#cdeebb}
+.sh-links{all:unset;display:flex;gap:2px;margin-left:auto;font-family:inherit}
+.sh-links a{color:#e6f6dc;font-size:.88rem;font-weight:600;padding:8px 10px;border-radius:8px;white-space:nowrap}
+.sh-links a:hover{background:rgba(255,255,255,.12);color:#fff}
+.sh-links a[aria-current]{background:rgba(255,255,255,.16);color:#fff}
+.sh-tel{color:#fff;font-weight:700;font-size:.92rem;white-space:nowrap}
+.sh-cta{background:#fff;color:#1f4a12;font-weight:700;font-size:.88rem;padding:9px 18px;border-radius:24px;white-space:nowrap;flex-shrink:0}
+.sh-cta:hover{background:#e0ffcc}
+a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #ffb03a;outline-offset:2px}
+@media(max-width:1080px){.sh-tel{display:none}}
+@media(max-width:860px){
+  .sh{flex-wrap:wrap;gap:6px 12px;padding:8px 14px 0}
+  .sh-cta{margin-left:auto;padding:7px 12px;font-size:.82rem}
+  .sh-brand b{font-size:.95rem}
+  .sh-links{order:3;width:calc(100% + 28px);margin:0 -14px;padding:0 8px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;background:#173a0c}
+  .sh-links::-webkit-scrollbar{display:none}
+  .sh-links a{padding:9px 10px;font-size:.84rem;border-radius:0}
+  .sh-brand small{display:none}
+}
+/* НИЖНЯЯ ПАНЕЛЬ НА ТЕЛЕФОНЕ */
+.mb{display:none}
+@media(max-width:700px){
+  body{padding-bottom:calc(58px + env(safe-area-inset-bottom))}
+  .mb{display:grid;grid-template-columns:1fr 1fr;gap:8px;position:fixed;left:0;right:0;bottom:0;z-index:90;padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);box-shadow:0 -2px 14px rgba(0,0,0,.18);font-family:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif}
+  .mb a{display:flex;align-items:center;justify-content:center;gap:6px;height:42px;border-radius:21px;font-weight:700;font-size:.93rem;text-decoration:none}
+  .mb-call{background:#1f4a12;color:#fff}
+  .mb-tg{background:#1672ad;color:#fff}
+}
+@media(max-width:374px){.sh-cta{display:none}}
+@media print{.sh,.mb{display:none}}
+
+/* ОБЩЕЕ ДЛЯ ПОДСТРАНИЦ */
+body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif}
+:root{--muted:#575757}
+html{scroll-padding-top:96px}
+.crumbs{max-width:1000px;margin:0 auto;padding:10px 24px 0;font-size:.82rem;color:#575757}
+.crumbs a{color:var(--green)}
+footer .ft-links{display:flex;flex-wrap:wrap;justify-content:center;gap:4px 18px;margin-bottom:10px;font-weight:600}
+footer a{text-decoration:none}
+footer a:hover{text-decoration:underline}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+@media(max-width:600px){.crumbs{padding:8px 16px 0}}
   </style>
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Главная", "item": "https://yagodnoe-sozvezdie.ru/"}, {"@type": "ListItem", "position": 2, "name": "Клубника", "item": "https://yagodnoe-sozvezdie.ru/klubnika.html"}]}</script>
 </head>
 <body>
 
-<nav>
-  <a href="/" class="logo">🍓 Ягодное Созвездие</a>
-  <div class="links">
-    <a href="/klubnika.html">Клубника</a>
-    <a href="/smorodina.html">Смородина</a>
-    <a href="/rassada.html">Рассада</a>
-    <a href="/#contacts">Контакты</a>
-  </div>
-</nav>
+<header class="sh">
+  <a class="sh-brand" href="/" aria-label="Ягодное Созвездие — на главную"><img src="/images/logo.webp" width="40" height="40" alt=""><span><b>Ягодное Созвездие</b><small>ягодная ферма · Ивановская область</small></span></a>
+  <nav class="sh-links" aria-label="Разделы сайта"><a href="/sazhentsy-smorodiny.html">Саженцы смородины</a><a href="/klubnika.html" aria-current="page">Клубника</a><a href="/smorodina.html">Смородина</a><a href="/rassada.html">Рассада</a><a href="/miskantus.html">Мискантус</a><a href="/#contacts">Контакты</a></nav>
+  <a class="sh-tel" href="tel:+79203709270">+7 (920) 370-92-70</a>
+  <a class="sh-cta" href="/#order-section">Оставить заявку</a>
+</header>
+
+<main>
+<div class="crumbs"><a href="/">Главная</a> › Клубника</div>
 
 <section class="hero">
   <h1>Клубника с фермы<br>в <span>Ивановской области</span></h1>
   <div class="price-badge">700 <sup>₽/кг</sup></div>
   <p>Сорта Мурано и Ания. Плодоносит волнами с&nbsp;июня по&nbsp;октябрь. Прямо с&nbsp;грядки — без посредников.</p>
   <div class="btn-group">
-    <a href="https://t.me/BerryConstellation" class="btn btn-primary" rel="noopener">Написать в Telegram</a>
+    <a href="https://t.me/BerryConstellation?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BA%D0%B0%D0%B7%D0%B0%D1%82%D1%8C%20%D1%8F%D0%B3%D0%BE%D0%B4%D1%83%20/%20%D1%80%D0%B0%D1%81%D1%81%D0%B0%D0%B4%D1%83.%20%D0%A7%D1%82%D0%BE%20%D0%B8%20%D1%81%D0%BA%D0%BE%D0%BB%D1%8C%D0%BA%D0%BE%3A%20%E2%80%A6" class="btn btn-primary" rel="noopener">Написать в Telegram</a>
     <a href="tel:+79203709270" class="btn btn-outline">+7 (920) 370-92-70</a>
   </div>
 </section>
@@ -173,8 +219,8 @@
       </div>
       <div class="feature">
         <div class="icon">✅</div>
-        <strong>Без химии и ГМО</strong>
-        <span>Фермерские технологии, капельный полив</span>
+        <strong>Защита по регламенту</strong>
+        <span>Сроки ожидания соблюдаются, капельный полив</span>
       </div>
     </div>
   </div>
@@ -189,7 +235,7 @@
     Ягоды убираем вручную в&nbsp;день сбора. Никаких складов и&nbsp;холодильников неделями — вы получаете клубнику, которую сегодня сорвали с&nbsp;куста. Капельный полив и&nbsp;профессиональная агротехника обеспечивают стабильный крупный калибр.
   </p>
   <p>
-    <strong>Цена 700&nbsp;₽/кг</strong> — это прямая продажа от фермера. Мы не&nbsp;работаем через оптовиков и&nbsp;посредников. Розница, самовывоз, честно.
+    <strong>Цена 700&nbsp;₽/кг</strong> — это прямая продажа от фермера. Покупаете напрямую у&nbsp;фермы: розница и&nbsp;самовывоз. Магазинам, кафе и&nbsp;переработчикам — <a href="/#partners">условия для партнёров на&nbsp;сезон 2027</a>.
   </p>
 </section>
 
@@ -210,17 +256,17 @@
       <div class="step">
         <div class="num">3</div>
         <strong>Заберите свежую ягоду</strong>
-        <span>Иваново, ул. Кудряшова 20 или д. Ефремово — ежедневно 08:00–19:00</span>
+        <span>Иваново, ул. Кудряшова 20 или д. Ефремово — ежедневно 9:00–20:00</span>
       </div>
     </div>
   </div>
 </section>
 
 <section class="cta-bottom">
-  <h2>Клубника созрела — сезон открыт</h2>
+  <h2>Клубника с фермы — сезон с июня по октябрь</h2>
   <p>Напишите сейчас — ответим в течение часа и договоримся о самовывозе</p>
   <div class="btn-group">
-    <a href="https://t.me/BerryConstellation" class="btn btn-outline" rel="noopener" style="border-color:#fff; color:#fff">Telegram @BerryConstellation</a>
+    <a href="https://t.me/BerryConstellation?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BA%D0%B0%D0%B7%D0%B0%D1%82%D1%8C%20%D1%8F%D0%B3%D0%BE%D0%B4%D1%83%20/%20%D1%80%D0%B0%D1%81%D1%81%D0%B0%D0%B4%D1%83.%20%D0%A7%D1%82%D0%BE%20%D0%B8%20%D1%81%D0%BA%D0%BE%D0%BB%D1%8C%D0%BA%D0%BE%3A%20%E2%80%A6" class="btn btn-outline" rel="noopener" style="border-color:#fff; color:#fff">Telegram @BerryConstellation</a>
     <a href="tel:+79203709270" class="btn" style="background:#fff; color: var(--red);">+7 (920) 370-92-70</a>
   </div>
 </section>
@@ -238,18 +284,31 @@
       <strong>Рассада земляники</strong>
       <div class="card-price">50 ₽/шт — Мурано, Ания</div>
     </a>
-    <a href="/" class="product-card">
-      <div class="card-icon">🏡</div>
-      <strong>О ферме</strong>
-      <div class="card-price">КФХ Балабанов А.В.</div>
+    <a href="/sazhentsy-smorodiny.html" class="product-card">
+      <div class="card-icon">🌱</div>
+      <strong>Саженцы смородины оптом</strong>
+      <div class="card-price">ОКС и ЗКС, 8 сортов</div>
+    </a>
+    <a href="/miskantus.html" class="product-card">
+      <div class="card-icon">🌾</div>
+      <strong>Мискантус</strong>
+      <div class="card-price">мульча и рассада</div>
     </a>
   </div>
 </section>
 
+</main>
+
 <footer>
-  <p>© 2026 Ягодное Созвездие — ягодная ферма в Ивановской области</p>
-  <p style="margin-top:6px"><a href="/">Главная</a> · <a href="https://t.me/BerryConstellation">Telegram</a> · <a href="https://vk.com/club220988639">ВКонтакте</a></p>
+  <div class="ft-links"><a href="/">Главная</a><a href="/sazhentsy-smorodiny.html">Саженцы смородины</a><a href="/klubnika.html">Клубника</a><a href="/smorodina.html">Смородина</a><a href="/rassada.html">Рассада</a><a href="/miskantus.html">Мискантус</a></div>
+  <p>© 2026 КФХ Балабанов А.В. «Ягодное Созвездие» · д. Ефремово, Лежневский район, Ивановская область</p>
+  <p style="margin-top:6px"><a href="tel:+79203709270">+7 (920) 370-92-70</a> · <a href="https://t.me/BerryConstellation" rel="noopener">Telegram</a> · <a href="https://vk.com/club220988639" rel="noopener">ВКонтакте</a> · <a href="/#contacts">Контакты</a></p>
 </footer>
+
+<div class="mb" role="navigation" aria-label="Быстрая связь">
+  <a class="mb-call" href="tel:+79203709270">📞 Позвонить</a>
+  <a class="mb-tg" href="https://t.me/BerryConstellation?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%21%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BA%D0%B0%D0%B7%D0%B0%D1%82%D1%8C%20%D1%8F%D0%B3%D0%BE%D0%B4%D1%83%20/%20%D1%80%D0%B0%D1%81%D1%81%D0%B0%D0%B4%D1%83.%20%D0%A7%D1%82%D0%BE%20%D0%B8%20%D1%81%D0%BA%D0%BE%D0%BB%D1%8C%D0%BA%D0%BE%3A%20%E2%80%A6" rel="noopener">✈️ Telegram</a>
+</div>
 
 </body>
 </html>
